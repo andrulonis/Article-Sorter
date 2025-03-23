@@ -38,6 +38,8 @@ def main():
             article_numbers.append(row[int(articles_column)-1])
     
     article_numbers = article_numbers[1:] if is_header else article_numbers
+    total_articles = len(article_numbers)
+    num_found = 0
     extract_folder = f'Extracted_files_{source_csv.split(".")[0]}'
 
     if not os.path.exists(extract_folder):
@@ -63,10 +65,13 @@ def main():
                 with open(f"{extract_folder}/{meta.name}.pdf", "wb") as f:
                     f.write(resp.content)
                 found = True
+                num_found += 1
                 break
         if not found:
             print(f'Not found {article_number}')
         found = False
+
+    print(f'Extracted {num_found}/{total_articles}')
 
 if __name__ == "__main__":
     main()
